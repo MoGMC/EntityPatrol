@@ -6,7 +6,7 @@ public class EntityPatrol extends JavaPlugin {
 
 	@Override
 	public void onEnable() {
-		this.getServer().getPluginManager().registerEvents(new EntityListener(10), this);
+		this.getServer().getPluginManager().registerEvents(new EntityListener(25, 10), this);
 
 	}
 

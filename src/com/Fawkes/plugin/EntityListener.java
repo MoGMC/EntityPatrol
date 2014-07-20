@@ -1,7 +1,9 @@
 package com.Fawkes.plugin;
 
 import org.bukkit.ChatColor;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.ItemFrame;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Painting;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -15,10 +17,11 @@ public class EntityListener implements Listener {
 
 	private String warn;
 
-	private int max;
+	private int max, maxMobs;
 
-	public EntityListener(int max) {
+	public EntityListener(int max, int maxMobs) {
 		this.max = max;
+		this.maxMobs = maxMobs;
 
 		warn = ChatColor.RED + "You have exceeded the number of entities in this chunk!";
 
@@ -27,7 +30,16 @@ public class EntityListener implements Listener {
 	@EventHandler
 	public void entitySpawnEvent(CreatureSpawnEvent e) {
 
-		if (e.getLocation().getChunk().getEntities().length > max) {
+		int mobs = 0;
+
+		for (Entity ent : e.getLocation().getChunk().getEntities()) {
+			if (ent instanceof LivingEntity) {
+				mobs++;
+
+			}
+		}
+
+		if (mobs > maxMobs) {
 
 			e.setCancelled(true);
 
